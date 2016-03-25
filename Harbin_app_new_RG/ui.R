@@ -4,7 +4,7 @@ shinyUI(fluidPage(theme = "bootstrap.css",
   
   sidebarLayout(
     sidebarPanel(
-      img(src = "Harbin_new.png", height = 400, width = 400),
+      img(src = "harbin_logo_final.png", height = 400, width = 400),
       br(),
       br(),
       strong(h4("Relative quantitation data analysis tool for real-time qPCR data.", align="center")),
