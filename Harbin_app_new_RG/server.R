@@ -12,6 +12,15 @@ source("file.check.r")
 
 shinyServer (function(input, output) {
   
+  #####Example instructions download
+  
+  output$manual <- downloadHandler(
+    filename="Harbin_instruction_manual.pdf",
+    content=function(file) {
+      file.copy("Harbin_manual.pdf", file)
+    }
+  )
+  
   ####Number of reference genes file inputs
   
   output$input_ref <- renderUI({
@@ -206,8 +215,9 @@ shinyServer (function(input, output) {
   
   output$GOI_o <- renderTable({
     GOI_df <- GOI_o()
-    if(is.null(GOI_df))
-      return(NULL)
+    validate(
+      need(GOI_df != "", label = "GOI data")
+    )
     as.data.frame(GOI_df$Unknown)
   })
   
@@ -215,8 +225,9 @@ shinyServer (function(input, output) {
   
   output$RG_o <- renderTable({
     RG_df <- RG_o()
-    if(is.null(RG_df))
-      return(NULL)
+    validate(
+      need(RG_df != "", label = "Reference gene data")
+    )
     cbind(as.data.frame(RG_df$RG))
   })
   
@@ -550,6 +561,10 @@ shinyServer (function(input, output) {
   })
   
   output$GOI_norm_table_m <- renderTable({
+    results_m <- manualdata()
+    validate(
+      need(results_m != "", label = "Cq values")
+    )
     GOI_norm_m()$resultsmat
   })
   
