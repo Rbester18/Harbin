@@ -29,7 +29,7 @@ shinyUI(fluidPage(theme = "bootstrap.css",
       "For more information please contact Dr. H.J. Maree at hjmaree@sun.ac.za",
       br(),
       br(),
-      h6(em("'Robert Harbin (1908 - 1978), born in South Africa, was a British magician and the inventor of a number of classic illusions, including the Zig Zag Girl. Since the the qPCR concentrations are devided into intervals, we decided to name our application ", span("Harbin", style = "color:#dd4814"), "'"))
+      h6(em("'Robert Harbin (1908 - 1978), born in South Africa, was a British magician and the inventor of a number of classic illusions, including the Zig Zag Girl. Since the the qPCR concentrations are divided into intervals, we decided to name our application ", span("Harbin", style = "color:#dd4814"), "'"))
     ),
     
     mainPanel(
@@ -180,6 +180,8 @@ shinyUI(fluidPage(theme = "bootstrap.css",
                                              choices = list("Natural log" = 1, 
                                                             "log base 10" = 2, "No transformation"=3),
                                              selected = 3),
+                          radioButtons("Input_type2", "Input file type?", 
+                                       choices = list("Rotor-Gene input" = 1, "Manual input" = 2, "Other file" = 3), selected=1),
                           strong(h4("Select dataset to use for statistical analysis")),
                           helpText(em("Normalised data: Data from Rotor-Gene/manual input")), 
                           helpText(em("New reference database: Data from Rotor-Gene/manual input if option was selected to add data to reference database")),

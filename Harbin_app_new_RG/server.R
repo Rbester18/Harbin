@@ -93,7 +93,7 @@ shinyServer (function(input, output) {
       return(NULL)
     if(answer == 1){
       radioButtons("Harbintesttype", "Choose test for comparison", 
-                   choices = list("Kolmogorov-Smirnov Test" = 1, "Harbin test" = 2), selected=1)
+                   choices = list("Kolmogorov-Smirnov Test" = 1, "Harbin test (experimental)" = 2), selected=1)
     }
   })
  
@@ -228,7 +228,30 @@ shinyServer (function(input, output) {
     validate(
       need(RG_df != "", label = "Reference gene data")
     )
-    cbind(as.data.frame(RG_df$RG))
+    RG_out <- cbind(as.data.frame(RG_df$RG))
+    num <- as.integer(input$refgenenum.answer)
+    if (num ==1){
+     colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==2) {
+     colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==3) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==4) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==5) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==6) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==7) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==8) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date")
+    }else if(num ==9) {
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date", "Refgene9_Name", "Rep.Calc.Conc", "Date")
+    }else{
+      colnames(RG_out) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date", "Refgene9_Name", "Rep.Calc.Conc", "Date", "Refgene10_Name", "Rep.Calc.Conc", "Date")
+    }
+    RG_out
   })
   
   ####Function to load reference database if applicable
@@ -508,7 +531,30 @@ shinyServer (function(input, output) {
     validate(
       need(results_m != "", label = "Cq values")
     )
-    cbind(as.data.frame(results_m$RG_m))
+    RG_out_m <- cbind(as.data.frame(results_m$RG_m))
+    numrefs <- as.integer(input$num_refgenes)
+    if (numrefs ==1){
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==2) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==3) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==4) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==5) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==6) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==7) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==8) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date")
+    }else if(numrefs ==9) {
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date", "Refgene9_Name", "Rep.Calc.Conc", "Date")
+    }else{
+      colnames(RG_out_m) <- c("Refgene1_Name", "Rep.Calc.Conc", "Date", "Refgene2_Name", "Rep.Calc.Conc", "Date", "Refgene3_Name", "Rep.Calc.Conc", "Date", "Refgene4_Name", "Rep.Calc.Conc", "Date", "Refgene5_Name", "Rep.Calc.Conc", "Date", "Refgene6_Name", "Rep.Calc.Conc", "Date", "Refgene7_Name", "Rep.Calc.Conc", "Date", "Refgene8_Name", "Rep.Calc.Conc", "Date", "Refgene9_Name", "Rep.Calc.Conc", "Date", "Refgene10_Name", "Rep.Calc.Conc", "Date")
+    }
+    RG_out_m
   })
   
   #####Reference database for manual input option
@@ -590,7 +636,7 @@ shinyServer (function(input, output) {
       return(NULL)
     if(answer == 1){
       radioButtons("Harbintesttype_m", "Choose test for comparison", 
-                   choices = list("Kolmogorov-Smirnov Test" = 1, "Harbin test" = 2), selected=1)
+                   choices = list("Kolmogorov-Smirnov Test" = 1, "Harbin test (experimental)" = 2), selected=1)
     }
   })
   
@@ -747,8 +793,8 @@ shinyServer (function(input, output) {
   ####File input of samples (GOI) to compare table
   
   Compare <- reactive({
-    input_answer <- as.integer(input$Input_type)
-    if (input_answer==1){
+    input_answer2 <- as.integer(input$Input_type2)
+    if (input_answer2==1){
       loganswer <- as.integer(input$logtransform)
       if(loganswer==3){
         answer <- as.integer(input$file_choice)
@@ -764,7 +810,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         nolog <- data[,4]
-        datalog <- cbind(data[,1], nolog)
+        datalog <- cbind.data.frame(data[,1], nolog, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI", "Note")
         return(datalog)
         
       } else if (loganswer==2){
@@ -781,7 +828,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         logten <- log10(data[,4])
-        datalog <- cbind(data[,1], logten)
+        datalog <- cbind.data.frame(data[,1], logten, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI (log base 10)", "Note")
         return(datalog)
         
       } else {
@@ -798,7 +846,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         lognat <- log(data[,4])
-        datalog <- cbind(data[,1], lognat)
+        datalog <- cbind.data.frame(data[,1], lognat, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI (Natural log)", "Note")
         return(datalog)
         
       }
@@ -818,7 +867,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         nolog <- data[,4]
-        datalog <- cbind(data[,1], nolog)
+        datalog <- cbind.data.frame(data[,1], nolog, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI", "Note")
         return(datalog)
         
       } else if (loganswer==2){
@@ -835,7 +885,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         logten <- log10(data[,4])
-        datalog <- cbind(data[,1], logten)
+        datalog <- cbind.data.frame(data[,1], logten, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI (log base 10)", "Note")
         return(datalog)
         
       } else {
@@ -852,7 +903,8 @@ shinyServer (function(input, output) {
           data <- read.csv(fileName$datapath)
         }
         lognat <- log(data[,4])
-        datalog <- cbind(data[,1], lognat)
+        datalog <- cbind.data.frame(data[,1], lognat, data[,7])
+        colnames(datalog) <- c("Name","Normalised GOI (Natural log)", "Note")
         return(datalog)
         
       }
@@ -1625,36 +1677,29 @@ shinyServer (function(input, output) {
   
   output$textarea.out <- renderPrint({
     bs()
-    validate(
-      need(bs() != "", label = "Group selection")
-    )
+    
   })
+  
   
   ####Output for normality test
   
   output$testnorm.out <- renderPrint({
     testnorm()
-    validate(
-      need(testnorm() != "", label = "Group selection")
-    )
+    
   })
   
   ####Output for levene test
   
   output$levene.out <- renderPrint({
     levene()
-    validate(
-      need(levene() != "", label = "Group selection")
-    )
+
   })
   
   
   ####Output for parametric test
   output$t.out <- renderPrint({
     t()
-    validate(
-      need(t() != "", label = "Group selection")
-    )
+    
   })
   
   output$KrWs <- renderPrint({
