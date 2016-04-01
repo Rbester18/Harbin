@@ -48,9 +48,9 @@ GOI.normalise.RG<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, Refma
     refdatabase.data<-refdatabase
     for(i in 1:n){
       if(GOIdata[i,"Name"] %in% refdatabase.data[,"Name"]){
-        duplicated_names <- "Warning: GOI names already found in reference database!"
+        duplicated_names <- "Warning: GOI names already found in reference data set!"
         } else {
-          duplicated_names <- "No duplicated names in reference database"
+          duplicated_names <- "No duplicated names in reference data set"
         }
       }
     refdatabase.valid.ind<-rep(0,times=nrow(refdatabase.data))
@@ -104,13 +104,13 @@ GOI.normalise.RG<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, Refma
       }
     }
     } else {
-    duplicated_names <- "No database to compare"
-    line1 <- "No database to compare"
-    numchange <- "No database to compare"
-    line2 <- "No database to compare"
-    line3 <- "No database to compare"
-    line4 <- "No database to compare"
-    line5 <- "No database to compare"
+    duplicated_names <- "No reference data set to compare"
+    line1 <- "No reference data set to compare"
+    numchange <- "No reference data set to compare"
+    line2 <- "No reference data set to compare"
+    line3 <- "No reference data set to compare"
+    line4 <- "No reference data set to compare"
+    line5 <- "No reference data set to compare"
    
     boundvals <- convergence.check(GOI.validdata)
  }

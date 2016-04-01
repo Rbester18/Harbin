@@ -39,7 +39,7 @@ shinyServer (function(input, output) {
     if(is.null(answer))
       return(NULL)
     if(answer == 1){
-      fileInput("refdatabase", label="Select reference database")
+      fileInput("refdatabase", label="Select reference data set")
     }
   })
   
@@ -63,16 +63,16 @@ shinyServer (function(input, output) {
      #####Example refdatebase file download
      
       output$RD_Examplefile <- downloadHandler(
-       filename="Reference_database_example.csv",
+       filename="Reference_dataset_example.csv",
        content=function(con) {
-         file.copy("Reference_database_example_input.csv", con)
+         file.copy("Reference_dataset_example_input.csv", con)
        }
      )
       
       output$RD_Examplefile_m <- downloadHandler(
-          filename="Reference_database_example.csv",
+          filename="Reference_dataset_example.csv",
           content=function(con) {
-            file.copy("Reference_database_example_input.csv", con)
+            file.copy("Reference_dataset_example_input.csv", con)
           }
       )
   
@@ -82,7 +82,7 @@ shinyServer (function(input, output) {
     if(is.null(answer))
       return(NULL)
     if(answer == 1){
-      h5(strong("Choose between the Kolmogorov-Smirnov test or the Harbin test to compare normalised data to a reference database."), em("Kolmogorov-Smirnov test is the default. The harbin test is more conservative and has a higher false negative rate. The harbin test is applicable if your reference database has more samples than the test data."))
+      h5(strong("Choose between the Kolmogorov-Smirnov test or the Harbin test to compare normalised data to a reference data set."), em("Kolmogorov-Smirnov test is the default. The harbin test is more conservative and has a higher false negative rate. The harbin test is applicable if your reference data set has more samples than the test data."))
     }
   })
   
@@ -254,12 +254,12 @@ shinyServer (function(input, output) {
     RG_out
   })
   
-  ####Function to load reference database if applicable
+  ####Function to load reference data set if applicable
   
   RD_o <- reactive({
     files_df <-input$refdatabase
     validate(
-      need(files_df != "", label = "Reference database")
+      need(files_df != "", label = "Reference data set")
     )
     refdatabase <-files_df$datapath
     RD_f <- read.csv(refdatabase)
@@ -356,7 +356,7 @@ shinyServer (function(input, output) {
     file_check$NO_GOI_3
   })
   
-  #####Duplicated names in database
+  #####Duplicated names in data set
   
   output$duplicated_names <- renderText({
     GOI_norm()$duplicated_names
@@ -405,7 +405,7 @@ shinyServer (function(input, output) {
   
   output$downloadDB <- downloadHandler(
     filename = function() {
-      paste("New_database.csv")
+      paste("New_reference_dataset.csv")
     },
     content = function(file) {
       write.table(GOI_norm()$newdb, file, sep=",",
@@ -564,7 +564,7 @@ shinyServer (function(input, output) {
     if (is.null(answer)) 
       return(NULL)
     if(answer == 1){
-      fileInput("refdatabase_m", label="Select reference database")
+      fileInput("refdatabase_m", label="Select reference data set")
     }
   })
   
@@ -573,7 +573,7 @@ shinyServer (function(input, output) {
   RD_om <- reactive({
     files_dfm <-input$refdatabase_m
     validate(
-      need(files_dfm != "", label = "Reference database")
+      need(files_dfm != "", label = "Reference data set")
     )
     refdatabase_m <-files_dfm$datapath
     RD_f <- read.csv(refdatabase_m)
@@ -625,7 +625,7 @@ shinyServer (function(input, output) {
     if(is.null(answer))
       return(NULL)
     if(answer == 1){
-      h5(strong("Choose between the Kolmogorov-Smirnov test or the Harbin test to compare normalised data to a reference database."), em("Kolmogorov-Smirnov test is the default. The harbin test is more conservative and has a higher false negative rate. The harbin test is applicable if your reference database has more samples than the test data."))
+      h5(strong("Choose between the Kolmogorov-Smirnov test or the Harbin test to compare normalised data to a reference data set."), em("Kolmogorov-Smirnov test is the default. The harbin test is more conservative and has a higher false negative rate. The harbin test is applicable if your reference data set has more samples than the test data."))
     }
   })
   
@@ -685,7 +685,7 @@ shinyServer (function(input, output) {
   
   output$downloadDBm <- downloadHandler(
     filename = function() {
-      paste("New_database.csv")
+      paste("New_reference_dataset.csv")
     },
     content = function(file) {
       write.table(GOI_norm_m()$newdb, file, sep=",",
@@ -703,9 +703,9 @@ shinyServer (function(input, output) {
         new_data <- GOI_norm()$resultsmat
         new_db <- GOI_norm()$newdb
         old_db <- RD_o()
-        plotmain_old <- "Unchanged reference database"
+        plotmain_old <- "Unchanged reference data set"
         plotmain_new <- "Normalised gene of interest data (new)" 
-        plotmain_oldnew <- "New reference database"
+        plotmain_oldnew <- "New reference data set"
         par(mfrow=c(3,1))
         convergence.plot(old_db[,4], plotmain_old)
         convergence.plot(new_data[,4], plotmain_new)
@@ -716,7 +716,7 @@ shinyServer (function(input, output) {
       } else if (newdb_answer==2 && olddb_answer==1) {
         new_data <- GOI_norm()$resultsmat
         old_db <- RD_o()
-        plotmain_old <- "Unchanged reference database"
+        plotmain_old <- "Unchanged reference data set"
         plotmain_new <- "Normalised gene of interest data (new)" 
         par(mfrow=c(2,1))
         convergence.plot(old_db[,4], plotmain_old)
@@ -732,7 +732,7 @@ shinyServer (function(input, output) {
         par(mfrow=c(1,1))
         
       } else {
-        print("Can not plot new data and new database if old database was not loaded")
+        print("Can not plot new data and new reference data set if old reference data set was not loaded")
       }
     } else {
       newdb_answer <- as.integer(input$Database_add_m)
@@ -743,9 +743,9 @@ shinyServer (function(input, output) {
           return(NULL)
         new_db <- GOI_norm_m()$newdb
         old_db <- RD_om()
-        plotmain_old <- "Unchanged reference database"
+        plotmain_old <- "Unchanged reference data set"
         plotmain_new <- "Normalised gene of interest data (new)" 
-        plotmain_oldnew <- "New reference database"
+        plotmain_oldnew <- "New reference data set"
         par(mfrow=c(3,1))
         convergence.plot(old_db[,4], plotmain_old)
         convergence.plot(new_data[,4], plotmain_new)
@@ -758,7 +758,7 @@ shinyServer (function(input, output) {
         if (is.null(new_data)) 
           return(NULL)
         old_db <- RD_om()
-        plotmain_old <- "Unchanged reference database"
+        plotmain_old <- "Unchanged reference data set"
         plotmain_new <- "Normalised gene of interest data (new)" 
         par(mfrow=c(2,1))
         convergence.plot(old_db[,4], plotmain_old)
@@ -777,7 +777,7 @@ shinyServer (function(input, output) {
         par(mfrow=c(1,1))
         
       } else {
-        print("Can not plot new data and new database if old database was not loaded")
+        print("Can not plot new data and new reference data set if old reference data set was not loaded")
       }
     }
   })
@@ -1159,27 +1159,6 @@ shinyServer (function(input, output) {
   
   makedistPlot <- function(){
     
-    simple.bincount <- function(x, breaks) {
-      nx <- length(x)
-      nbreaks <- length(breaks)
-      counts <- integer(nbreaks - 1)
-      for (i in 1:nx) {
-        lo <- 1
-        hi <- nbreaks
-        if (breaks[lo] <= x[i] && x[i] <= breaks[hi]) {
-          while (hi - lo >= 2) {
-            new <- (hi + lo) %/% 2
-            if(x[i] > breaks[new])
-              lo <- new
-            else
-              hi <- new
-          }
-          counts[lo] <- counts[lo] + 1
-        }
-      }
-      return(counts)
-    }
-    
     groupnum <- as.integer(input$num_groups)
     if(groupnum == 2 ){
       g1 <- groups_selected()$g1
@@ -1188,29 +1167,15 @@ shinyServer (function(input, output) {
       g2 <- groups_selected()$g2
       
       
-      nclass.g1 <- nclass.FD(g1)
-      breaks.g1 <- pretty(g1, nclass.g1)
-      counts.g1 <- simple.bincount(g1, breaks.g1)
-      counts.max.g1 <- max(counts.g1)
+      p1 <- density(g1)
+      p2 <- density(g2)
       
-      nclass.g2 <- nclass.FD(g2)
-      breaks.g2 <- pretty(g2, nclass.g2)
-      counts.g2 <- simple.bincount(g2, breaks.g2)
-      counts.max.g2 <- max(counts.g2)
-      
-      counts.max <- max(c(counts.max.g1, counts.max.g2))
-      
-      g1g2.min <- min(c(g1,g2))
-      g1g2.min <- g1g2.min - g1g2.min*0.1
-      g1g2.max <- max(c(g1,g2))
-      g1g2.max <- g1g2.max + g1g2.max*0.1
-      
-      p1 <- hist(g1, xlim = c(g1g2.min, g1g2.max), ylim = c(0, counts.max*1.3))
-      p2 <- hist(g2, xlim = c(g1g2.min, g1g2.max), ylim = c(0, counts.max*1.3))
+      max_y <- max(c(p1$y,p2$y))
+      min_y <- min(c(p1$y,p2$y))
       
       plot(p1, las=1, xlab = "Group 1 is expressed in blue and Group 2 in red. Vertical lines show the mean.",
-           main = "", col = rgb(0,0,1,1/4), xlim = c(g1g2.min,g1g2.max), ylim = c(0, counts.max*1.3))
-      plot(p2, las=1, xlab = "", main = "", col = rgb(1,0,0,1/4), xlim = c(g1g2.min,g1g2.max), ylim = c(0, counts.max*1.3), add = T)
+           main = "", col = "blue", ylim=c(min_y,max_y))
+      lines(p2, las=1, xlab = "", main = "", col = "red")
       
       abline(v = mean(g1), col = "blue", lwd = 2)
       abline(v = mean(g2), col = "red", lwd = 2)
@@ -1222,36 +1187,17 @@ shinyServer (function(input, output) {
       g2 <- groups_selected()$g2
       g3 <- groups_selected()$g3
       
-      nclass.g1 <- nclass.FD(g1)
-      breaks.g1 <- pretty(g1, nclass.g1)
-      counts.g1 <- simple.bincount(g1, breaks.g1)
-      counts.max.g1 <- max(counts.g1)
+      p1 <- density(g1)
+      p2 <- density(g2)
+      p3 <- density(g3)
       
-      nclass.g2 <- nclass.FD(g2)
-      breaks.g2 <- pretty(g2, nclass.g2)
-      counts.g2 <- simple.bincount(g2, breaks.g2)
-      counts.max.g2 <- max(counts.g2)
-      
-      nclass.g3 <- nclass.FD(g3)
-      breaks.g3 <- pretty(g3, nclass.g3)
-      counts.g3 <- simple.bincount(g3, breaks.g3)
-      counts.max.g3 <- max(counts.g3)
-      
-      counts.max <- max(c(counts.max.g1, counts.max.g2, counts.max.g3))
-      
-      g1g2g3.min <- min(c(g1,g2,g3))
-      g1g2g3.min <- g1g2g3.min - g1g2g3.min*0.1
-      g1g2g3.max <- max(c(g1,g2,g3))
-      g1g2g3.max <- g1g2g3.max + g1g2g3.max*0.1
-      
-      p1 <- hist(g1, xlim = c(g1g2g3.min, g1g2g3.max), ylim = c(0, counts.max*1.3))
-      p2 <- hist(g2, xlim = c(g1g2g3.min, g1g2g3.max), ylim = c(0, counts.max*1.3))
-      p3 <- hist(g3, xlim = c(g1g2g3.min, g1g2g3.max), ylim = c(0, counts.max*1.3))
+      max_y <- max(c(p1$y,p2$y,p3$y))
+      min_y <- min(c(p1$y,p2$y,p3$y))
       
       plot(p1, las=1, xlab = "Group 1 is expressed in blue; Group 2 in red and Group 3 in green. Vertical lines show the mean.",
-           main = "", col = rgb(0,0,1,1/4), xlim = c(g1g2g3.min,g1g2g3.max), ylim = c(0, counts.max*1.3))
-      plot(p2, las=1, xlab = "", main = "", col = rgb(1,0,0,1/4), xlim = c(g1g2g3.min,g1g2g3.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p3, las=1, xlab = "", main = "", col = rgb(0,1,0,1/4), xlim = c(g1g2g3.min,g1g2g3.max), ylim = c(0, counts.max*1.3), add = T)
+           main = "", col = "blue", ylim=c(min_y,max_y))
+      lines(p2, las=1, xlab = "", main = "", col = "red")
+      lines(p3, las=1, xlab = "", main = "", col = "green")
       
       abline(v = mean(g1), col = "blue", lwd = 2)
       abline(v = mean(g2), col = "red", lwd = 2)
@@ -1264,44 +1210,21 @@ shinyServer (function(input, output) {
       g2 <- groups_selected()$g2
       g3 <- groups_selected()$g3
       g4 <- groups_selected()$g4
+    
       
-      nclass.g1 <- nclass.FD(g1)
-      breaks.g1 <- pretty(g1, nclass.g1)
-      counts.g1 <- simple.bincount(g1, breaks.g1)
-      counts.max.g1 <- max(counts.g1)
+      p1 <- density(g1)
+      p2 <- density(g2)
+      p3 <- density(g3)
+      p4 <- density(g4)
       
-      nclass.g2 <- nclass.FD(g2)
-      breaks.g2 <- pretty(g2, nclass.g2)
-      counts.g2 <- simple.bincount(g2, breaks.g2)
-      counts.max.g2 <- max(counts.g2)
-      
-      nclass.g3 <- nclass.FD(g3)
-      breaks.g3 <- pretty(g3, nclass.g3)
-      counts.g3 <- simple.bincount(g3, breaks.g3)
-      counts.max.g3 <- max(counts.g3)
-      
-      nclass.g4 <- nclass.FD(g4)
-      breaks.g4 <- pretty(g4, nclass.g4)
-      counts.g4 <- simple.bincount(g4, breaks.g4)
-      counts.max.g4 <- max(counts.g4)
-      
-      counts.max <- max(c(counts.max.g1, counts.max.g2, counts.max.g3, counts.max.g4))
-      
-      g1g2g3g4.min <- min(c(g1,g2,g3,g4))
-      g1g2g3g4.min <- g1g2g3g4.min - g1g2g3g4.min*0.1
-      g1g2g3g4.max <- max(c(g1,g2,g3,g4))
-      g1g2g3g4.max <- g1g2g3g4.max + g1g2g3g4.max*0.1
-      
-      p1 <- hist(g1, xlim = c(g1g2g3g4.min, g1g2g3g4.max), ylim = c(0, counts.max*1.3))
-      p2 <- hist(g2, xlim = c(g1g2g3g4.min, g1g2g3g4.max), ylim = c(0, counts.max*1.3))
-      p3 <- hist(g3, xlim = c(g1g2g3g4.min, g1g2g3g4.max), ylim = c(0, counts.max*1.3))
-      p4 <- hist(g4, xlim = c(g1g2g3g4.min, g1g2g3g4.max), ylim = c(0, counts.max*1.3))
+      max_y <- max(c(p1$y,p2$y,p3$y,p4$y))
+      min_y <- min(c(p1$y,p2$y,p3$y,p4$y))
       
       plot(p1, las=1, xlab = "Group 1 is expressed in blue; Group 2 in red; Group 3 in green and Group 4 in orange. Vertical lines show the mean.",
-           main = "", col = rgb(0,0,1,1/4), xlim = c(g1g2g3g4.min,g1g2g3g4.max), ylim = c(0, counts.max*1.3))
-      plot(p2, las=1, xlab = "", main = "", col = rgb(1,0,0,1/4), xlim = c(g1g2g3g4.min,g1g2g3g4.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p3, las=1, xlab = "", main = "", col = rgb(0,1,0,1/4), xlim = c(g1g2g3g4.min,g1g2g3g4.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p4, las=1, xlab = "", main = "", col = rgb(1,0.5,0,1/4), xlim = c(g1g2g3g4.min,g1g2g3g4.max), ylim = c(0, counts.max*1.3), add = T)
+           main = "", col = "blue", ylim=c(min_y,max_y))
+      lines(p2, las=1, xlab = "", main = "", col = "red")
+      lines(p3, las=1, xlab = "", main = "", col = "green")
+      lines(p4, las=1, xlab = "", main = "", col = "Orange")
       
       abline(v = mean(g1), col = "blue", lwd = 2)
       abline(v = mean(g2), col = "red", lwd = 2)
@@ -1317,50 +1240,22 @@ shinyServer (function(input, output) {
       g4 <- groups_selected()$g4
       g5 <- groups_selected()$g5
       
-      nclass.g1 <- nclass.FD(g1)
-      breaks.g1 <- pretty(g1, nclass.g1)
-      counts.g1 <- simple.bincount(g1, breaks.g1)
-      counts.max.g1 <- max(counts.g1)
       
-      nclass.g2 <- nclass.FD(g2)
-      breaks.g2 <- pretty(g2, nclass.g2)
-      counts.g2 <- simple.bincount(g2, breaks.g2)
-      counts.max.g2 <- max(counts.g2)
+      p1 <- density(g1)
+      p2 <- density(g2)
+      p3 <- density(g3)
+      p4 <- density(g4)
+      p5 <- density(g5)
       
-      nclass.g3 <- nclass.FD(g3)
-      breaks.g3 <- pretty(g3, nclass.g3)
-      counts.g3 <- simple.bincount(g3, breaks.g3)
-      counts.max.g3 <- max(counts.g3)
-      
-      nclass.g4 <- nclass.FD(g4)
-      breaks.g4 <- pretty(g4, nclass.g4)
-      counts.g4 <- simple.bincount(g4, breaks.g4)
-      counts.max.g4 <- max(counts.g4)
-      
-      nclass.g5 <- nclass.FD(g5)
-      breaks.g5 <- pretty(g5, nclass.g5)
-      counts.g5 <- simple.bincount(g5, breaks.g5)
-      counts.max.g5 <- max(counts.g5)
-      
-      counts.max <- max(c(counts.max.g1, counts.max.g2, counts.max.g3, counts.max.g4, counts.max.g5))
-      
-      g1g2g3g4g5.min <- min(c(g1,g2,g3,g4,g5))
-      g1g2g3g4g5.min <- g1g2g3g4g5.min - g1g2g3g4g5.min*0.1
-      g1g2g3g4g5.max <- max(c(g1,g2,g3,g4,g5))
-      g1g2g3g4g5.max <- g1g2g3g4g5.max + g1g2g3g4g5.max*0.1
-      
-      p1 <- hist(g1, xlim = c(g1g2g3g4g5.min, g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
-      p2 <- hist(g2, xlim = c(g1g2g3g4g5.min, g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
-      p3 <- hist(g3, xlim = c(g1g2g3g4g5.min, g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
-      p4 <- hist(g4, xlim = c(g1g2g3g4g5.min, g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
-      p5 <- hist(g5, xlim = c(g1g2g3g4g5.min, g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
+      max_y <- max(c(p1$y,p2$y, p3$y, p4$y, p5$y))
+      min_y <- min(c(p1$y,p2$y, p3$y, p4$y, p5$y))
       
       plot(p1, las=1, xlab = "Group 1 is expressed in blue; Group 2 in red; Group 3 in green; Group 4 in orange and Group 5 in purple. Vertical lines show the mean.",
-           main = "", col = rgb(0,0,1,1/4), xlim = c(g1g2g3g4g5.min,g1g2g3g4g5.max), ylim = c(0, counts.max*1.3))
-      plot(p2, las=1, xlab = "", main = "", col = rgb(1,0,0,1/4), xlim = c(g1g2g3g4g5.min,g1g2g3g4g5.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p3, las=1, xlab = "", main = "", col = rgb(0,1,0,1/4), xlim = c(g1g2g3g4g5.min,g1g2g3g4g5.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p4, las=1, xlab = "", main = "", col = rgb(1,0.5,0,1/4), xlim = c(g1g2g3g4g5.min,g1g2g3g4g5.max), ylim = c(0, counts.max*1.3), add = T)
-      plot(p5, las=1, xlab = "", main = "", col = rgb(0.6,0,0.6,1/4), xlim = c(g1g2g3g4g5.min,g1g2g3g4g5.max), ylim = c(0, counts.max*1.3), add = T)
+           main = "", col = "blue", ylim=c(min_y,max_y))
+      lines(p2, las=1, xlab = "", main = "", col = "red")
+      lines(p3, las=1, xlab = "", main = "", col = "green")
+      lines(p4, las=1, xlab = "", main = "", col = "Orange")
+      lines(p5, las=1, xlab = "", main = "", col = "Purple")
       
       abline(v = mean(g1), col = "blue", lwd = 2)
       abline(v = mean(g2), col = "red", lwd = 2)
@@ -1369,6 +1264,9 @@ shinyServer (function(input, output) {
       abline(v = mean(g5), col = "Purple", lwd = 2)
     }
   }
+  
+  
+
   
   ####Plotting distribution per group
   
@@ -1515,13 +1413,14 @@ shinyServer (function(input, output) {
         return(NULL)
       g2 <- groups_selected()$g2
       
-      group.1ks <- ks.test(scale(g1), "pnorm")
+      #group.1ks <- ks.test(scale(g1), "pnorm")
       group.1sh <- shapiro.test(g1)
       
-      group.2ks <- ks.test(scale(g2), "pnorm")
+      #group.2ks <- ks.test(scale(g2), "pnorm")
       group.2sh <- shapiro.test(g2)
       
-      return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh))
+      #return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh))
+      return(list(Group.1 = group.1sh, Group.2 = group.2sh))
       
     } else if (groupnum == 3){
       g1 <- groups_selected()$g1
@@ -1530,16 +1429,17 @@ shinyServer (function(input, output) {
       g2 <- groups_selected()$g2
       g3 <- groups_selected()$g3
       
-      group.1ks <- ks.test(scale(g1), "pnorm")
+      #group.1ks <- ks.test(scale(g1), "pnorm")
       group.1sh <- shapiro.test(g1)
       
-      group.2ks <- ks.test(scale(g2), "pnorm")
+      #group.2ks <- ks.test(scale(g2), "pnorm")
       group.2sh <- shapiro.test(g2)
       
-      group.3ks <- ks.test(scale(g3), "pnorm")
+      #group.3ks <- ks.test(scale(g3), "pnorm")
       group.3sh <- shapiro.test(g3)
       
-      return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh))
+      #return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh))
+      return(list(Group.1 = group.1sh, Group.2 = group.2sh, Group.3 = group.3sh))
       
     } else if (groupnum == 4){
       g1 <- groups_selected()$g1
@@ -1549,19 +1449,20 @@ shinyServer (function(input, output) {
       g3 <- groups_selected()$g3
       g4 <- groups_selected()$g4
       
-      group.1ks <- ks.test(scale(g1), "pnorm")
+      #group.1ks <- ks.test(scale(g1), "pnorm")
       group.1sh <- shapiro.test(g1)
       
-      group.2ks <- ks.test(scale(g2), "pnorm")
+      #group.2ks <- ks.test(scale(g2), "pnorm")
       group.2sh <- shapiro.test(g2)
       
-      group.3ks <- ks.test(scale(g3), "pnorm")
+      #group.3ks <- ks.test(scale(g3), "pnorm")
       group.3sh <- shapiro.test(g3)
       
-      group.4ks <- ks.test(scale(g4), "pnorm")
+      #group.4ks <- ks.test(scale(g4), "pnorm")
       group.4sh <- shapiro.test(g4)
       
-      return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh, Group.4 = group.4ks, Group.4 = group.4sh))
+      #return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh, Group.4 = group.4ks, Group.4 = group.4sh))
+      return(list(Group.1 = group.1sh, Group.2 = group.2sh, Group.3 = group.3sh, Group.4 = group.4sh))
       
     } else if (groupnum == 5) {
       g1 <- groups_selected()$g1
@@ -1572,23 +1473,25 @@ shinyServer (function(input, output) {
       g4 <- groups_selected()$g4
       g5 <- groups_selected()$g5
       
-      group.1ks <- ks.test(scale(g1), "pnorm")
+      #group.1ks <- ks.test(scale(g1), "pnorm")
       group.1sh <- shapiro.test(g1)
       
-      group.2ks <- ks.test(scale(g2), "pnorm")
+      #group.2ks <- ks.test(scale(g2), "pnorm")
       group.2sh <- shapiro.test(g2)
       
-      group.3ks <- ks.test(scale(g3), "pnorm")
+      #group.3ks <- ks.test(scale(g3), "pnorm")
       group.3sh <- shapiro.test(g3)
       
-      group.4ks <- ks.test(scale(g4), "pnorm")
+      #group.4ks <- ks.test(scale(g4), "pnorm")
       group.4sh <- shapiro.test(g4)
       
-      group.5ks <- ks.test(scale(g5), "pnorm")
+      #group.5ks <- ks.test(scale(g5), "pnorm")
       group.5sh <- shapiro.test(g5)
       
-      return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh, Group.4 = group.4ks, Group.4 = group.4sh, Group.5 = group.5ks, Group.5 = group.5sh))
-    }
+      #return(list(Group.1 = group.1ks, Group.1 = group.1sh, Group.2 = group.2ks, Group.2 = group.2sh, Group.3 = group.3ks, Group.3 = group.3sh, Group.4 = group.4ks, Group.4 = group.4sh, Group.5 = group.5ks, Group.5 = group.5sh))
+      return(list(Group.1 = group.1sh, Group.2 = group.2sh, Group.3 = group.3sh, Group.4 = group.4sh, Group.5 = group.5sh))
+      
+      }
     
   })
   
@@ -1607,6 +1510,7 @@ shinyServer (function(input, output) {
       
       leveneTest(score, group, center=mean)
       
+      
     } else if (groupnum == 3){
       g1 <- groups_selected()$g1
       if(is.null(g1))
@@ -1618,6 +1522,7 @@ shinyServer (function(input, output) {
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3))))
       
       leveneTest(score, group, center=mean)
+      
       
     } else if (groupnum == 4){
       g1 <- groups_selected()$g1
@@ -1645,6 +1550,64 @@ shinyServer (function(input, output) {
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3)), rep("Group 4", length(g4)), rep("Group 5", length(g5))))
       
       leveneTest(score, group, center=mean)
+      
+      
+    } 
+  })
+  
+  ####function for Bartlett's test for homoscedasticity
+  
+  bartlett <- reactive({
+    groupnum <- as.integer(input$num_groups)
+    if(groupnum == 2 ){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      
+      score <- c(g1, g2)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2))))
+      
+      bartlett.test(score~group)
+      
+    } else if (groupnum == 3){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      
+      score <- c(g1, g2, g3)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3))))
+      
+      bartlett.test(score~group)
+      
+    } else if (groupnum == 4){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      g4 <- groups_selected()$g4
+      
+      score <- c(g1, g2, g3, g4)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3)), rep("Group 4", length(g4))))
+      
+      bartlett.test(score~group)
+      
+    } else if (groupnum == 5) {
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      g4 <- groups_selected()$g4
+      g5 <- groups_selected()$g5
+      
+      score <- c(g1, g2, g3, g4, g5)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3)), rep("Group 4", length(g4)), rep("Group 5", length(g5))))
+      
+      bartlett.test(score~group)
       
     } 
   })
@@ -1695,6 +1658,11 @@ shinyServer (function(input, output) {
 
   })
   
+  output$Bartlett.out <- renderPrint({
+    bartlett()
+    
+  })
+  
   
   ####Output for parametric test
   output$t.out <- renderPrint({
@@ -1705,7 +1673,17 @@ shinyServer (function(input, output) {
   output$KrWs <- renderPrint({
     groupnum <- as.integer(input$num_groups)
     if(groupnum == 2 ){
-      print("Only two groups were selected")
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      
+      score <- c(g1, g2)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2))))
+      
+      kruskalW = kruskal.test(score ~ group)
+      return(kruskalW)
+      
       
     } else if (groupnum == 3){
       g1 <- groups_selected()$g1
@@ -1779,7 +1757,17 @@ shinyServer (function(input, output) {
   output$anova <- renderPrint({
     groupnum <- as.integer(input$num_groups)
     if(groupnum == 2 ){
-      print("Only two groups were selected")
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      
+      score <- c(g1, g2)
+      group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2))))
+      
+      linmodel = lm(score ~ group)
+      anova_results <- anova(linmodel)
+      return(anova_results)
       
     }else if (groupnum == 3){
       g1 <- groups_selected()$g1
