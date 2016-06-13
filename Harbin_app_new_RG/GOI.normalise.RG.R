@@ -91,9 +91,15 @@ GOI.normalise.RG<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, Refma
     } else {
       # Harbin test: Reference data base vs. new data
       ## (NOTE: HARBIN TEST NOT YET WORKING AS INTENDED!!)
+      refdatabase_length <- nrow(refdatabase.data)
+      old <- refdatabase$Interval
+      new <- refdatabase.data$Interval
+      number_change <- length(which(old != new))
+      proportion <- number_change/refdatabase_length
+      count.labels <- as.numeric(proportion)
       line1 <- "Harbin Test: New dataset vs. Reference dataset"
       harbin.out<-harbin.test(x=refdatabase.data[,"GOI.normalised"],y=GOI.validdata,reps=1000)
-      numchange <- paste("Proportion of labels changing in reference data base: ",round(harbin.out$statistic*100,2),"%",sep="")
+      numchange <- paste("Proportion of labels changing in reference data base: ",round(count.labels*100,2),"%",sep="")
       line2 <- "H0: New data originated from same distribution as reference data"
       line3 <- "H1: New data and reference data come from different distributions"
       line4 <- paste("Harbin test p-value = ",harbin.out$p.value,"\n",sep="")
