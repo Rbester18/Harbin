@@ -912,6 +912,8 @@ shinyServer (function(input, output) {
     
   })
   
+  
+  
   output$table1  <-  DT::renderDataTable({
     Compare()
   })
@@ -952,7 +954,18 @@ shinyServer (function(input, output) {
     }
   })
   
+
+  #output$group_names <- renderUI({
+   # groupnum <- as.integer(input$num_groups)
+    #if(is.null(groupnum))
+     # return(NULL)
+    #lapply(1:groupnum, function(i) {
+     # textInput(paste0("Group ", i, " name"), label = paste0("Group ", i, " name"), 
+      #          value = "Enter group name here...")
+    #})
+  #})
   
+
   ####Output of rows selected per group
   
   output$table3_1 <-  renderPrint({
@@ -1276,6 +1289,8 @@ shinyServer (function(input, output) {
   
   ####Function for boxplot   
   
+  std.error <- function(x) sd(x)/sqrt(length(x))
+  
   makeboxPlot <- function(){
     
     groupnum <- as.integer(input$num_groups)
@@ -1288,17 +1303,17 @@ shinyServer (function(input, output) {
       score <- c(g1, g2)
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2))))
       
-      boxplot(score ~ group, las=1, ylab= "Means and +/-1 SDs are displayed in red.")
+      boxplot(score ~ group, las=1, ylab= "Means and +/-1 standard error are displayed in red.")
       
       beeswarm(score ~ group, col = 4, pch = 16, add = TRUE)
       
       points(1.2, mean(g1), pch = 18, col = "red", cex = 2)
-      arrows(1.2, mean(g1), 1.2, mean(g1) + sd(g1), length = 0.1, angle = 45, col = "red")
-      arrows(1.2, mean(g1), 1.2, mean(g1) - sd(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) + std.error(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) - std.error(g1), length = 0.1, angle = 45, col = "red")
       
       points(2.2, mean(g2), pch = 18, col = "red", cex = 2)
-      arrows(2.2, mean(g2), 2.2, mean(g2) + sd(g2), length = 0.1, angle = 45, col = "red")
-      arrows(2.2, mean(g2), 2.2, mean(g2) - sd(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) + std.error(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) - std.error(g2), length = 0.1, angle = 45, col = "red")
       
       
     } else if (groupnum == 3){
@@ -1311,21 +1326,21 @@ shinyServer (function(input, output) {
       score <- c(g1, g2, g3)
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3))))
       
-      boxplot(score ~ group, las=1, ylab= "Means and +/-1 SDs are displayed in red.")
+      boxplot(score ~ group, las=1, ylab= "Means and +/-1 standard error are displayed in red.")
       
       beeswarm(score ~ group, col = 4, pch = 16, add = TRUE)
       
       points(1.2, mean(g1), pch = 18, col = "red", cex = 2)
-      arrows(1.2, mean(g1), 1.2, mean(g1) + sd(g1), length = 0.1, angle = 45, col = "red")
-      arrows(1.2, mean(g1), 1.2, mean(g1) - sd(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) + std.error(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) - std.error(g1), length = 0.1, angle = 45, col = "red")
       
       points(2.2, mean(g2), pch = 18, col = "red", cex = 2)
-      arrows(2.2, mean(g2), 2.2, mean(g2) + sd(g2), length = 0.1, angle = 45, col = "red")
-      arrows(2.2, mean(g2), 2.2, mean(g2) - sd(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) + std.error(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) - std.error(g2), length = 0.1, angle = 45, col = "red")
       
       points(3.2, mean(g3), pch = 18, col = "red", cex = 2)
-      arrows(3.2, mean(g3), 3.2, mean(g3) + sd(g3), length = 0.1, angle = 45, col = "red")
-      arrows(3.2, mean(g3), 3.2, mean(g3) - sd(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) + std.error(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) - std.error(g3), length = 0.1, angle = 45, col = "red")
       
     } else if (groupnum == 4){
       g1 <- groups_selected()$g1
@@ -1338,25 +1353,25 @@ shinyServer (function(input, output) {
       score <- c(g1, g2, g3, g4)
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3)), rep("Group 4", length(g4))))
       
-      boxplot(score ~ group, las=1, ylab= "Means and +/-1 SDs are displayed in red.")
+      boxplot(score ~ group, las=1, ylab= "Means and +/-1 standard error are displayed in red.")
       
       beeswarm(score ~ group, col = 4, pch = 16, add = TRUE)
       
       points(1.2, mean(g1), pch = 18, col = "red", cex = 2)
-      arrows(1.2, mean(g1), 1.2, mean(g1) + sd(g1), length = 0.1, angle = 45, col = "red")
-      arrows(1.2, mean(g1), 1.2, mean(g1) - sd(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) + std.error(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) - std.error(g1), length = 0.1, angle = 45, col = "red")
       
       points(2.2, mean(g2), pch = 18, col = "red", cex = 2)
-      arrows(2.2, mean(g2), 2.2, mean(g2) + sd(g2), length = 0.1, angle = 45, col = "red")
-      arrows(2.2, mean(g2), 2.2, mean(g2) - sd(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) + std.error(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) - std.error(g2), length = 0.1, angle = 45, col = "red")
       
       points(3.2, mean(g3), pch = 18, col = "red", cex = 2)
-      arrows(3.2, mean(g3), 3.2, mean(g3) + sd(g3), length = 0.1, angle = 45, col = "red")
-      arrows(3.2, mean(g3), 3.2, mean(g3) - sd(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) + std.error(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) - std.error(g3), length = 0.1, angle = 45, col = "red")
       
       points(4.2, mean(g4), pch = 18, col = "red", cex = 2)
-      arrows(4.2, mean(g4), 4.2, mean(g4) + sd(g4), length = 0.1, angle = 45, col = "red")
-      arrows(4.2, mean(g4), 4.2, mean(g4) - sd(g4), length = 0.1, angle = 45, col = "red")
+      arrows(4.2, mean(g4), 4.2, mean(g4) + std.error(g4), length = 0.1, angle = 45, col = "red")
+      arrows(4.2, mean(g4), 4.2, mean(g4) - std.error(g4), length = 0.1, angle = 45, col = "red")
       
     } else if (groupnum == 5) {
       g1 <- groups_selected()$g1
@@ -1370,29 +1385,29 @@ shinyServer (function(input, output) {
       score <- c(g1, g2, g3, g4, g5)
       group <- factor(c(rep("Group 1", length(g1)), rep("Group 2", length(g2)), rep("Group 3", length(g3)), rep("Group 4", length(g4)), rep("Group 5", length(g5))))
       
-      boxplot(score ~ group, las=1, ylab= "Means and +/-1 SDs are displayed in red.")
+      boxplot(score ~ group, las=1, ylab= "Means and +/-1 standard error are displayed in red.")
       
       beeswarm(score ~ group, col = 4, pch = 16, add = TRUE)
       
       points(1.2, mean(g1), pch = 18, col = "red", cex = 2)
-      arrows(1.2, mean(g1), 1.2, mean(g1) + sd(g1), length = 0.1, angle = 45, col = "red")
-      arrows(1.2, mean(g1), 1.2, mean(g1) - sd(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) + std.error(g1), length = 0.1, angle = 45, col = "red")
+      arrows(1.2, mean(g1), 1.2, mean(g1) - std.error(g1), length = 0.1, angle = 45, col = "red")
       
       points(2.2, mean(g2), pch = 18, col = "red", cex = 2)
-      arrows(2.2, mean(g2), 2.2, mean(g2) + sd(g2), length = 0.1, angle = 45, col = "red")
-      arrows(2.2, mean(g2), 2.2, mean(g2) - sd(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) + std.error(g2), length = 0.1, angle = 45, col = "red")
+      arrows(2.2, mean(g2), 2.2, mean(g2) - std.error(g2), length = 0.1, angle = 45, col = "red")
       
       points(3.2, mean(g3), pch = 18, col = "red", cex = 2)
-      arrows(3.2, mean(g3), 3.2, mean(g3) + sd(g3), length = 0.1, angle = 45, col = "red")
-      arrows(3.2, mean(g3), 3.2, mean(g3) - sd(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) + std.error(g3), length = 0.1, angle = 45, col = "red")
+      arrows(3.2, mean(g3), 3.2, mean(g3) - std.error(g3), length = 0.1, angle = 45, col = "red")
       
       points(4.2, mean(g4), pch = 18, col = "red", cex = 2)
-      arrows(4.2, mean(g4), 4.2, mean(g4) + sd(g4), length = 0.1, angle = 45, col = "red")
-      arrows(4.2, mean(g4), 4.2, mean(g4) - sd(g4), length = 0.1, angle = 45, col = "red")
+      arrows(4.2, mean(g4), 4.2, mean(g4) + std.error(g4), length = 0.1, angle = 45, col = "red")
+      arrows(4.2, mean(g4), 4.2, mean(g4) - std.error(g4), length = 0.1, angle = 45, col = "red")
       
       points(5.2, mean(g5), pch = 18, col = "red", cex = 2)
-      arrows(5.2, mean(g5), 5.2, mean(g5) + sd(g5), length = 0.1, angle = 45, col = "red")
-      arrows(5.2, mean(g5), 5.2, mean(g5) - sd(g5), length = 0.1, angle = 45, col = "red")
+      arrows(5.2, mean(g5), 5.2, mean(g5) + std.error(g5), length = 0.1, angle = 45, col = "red")
+      arrows(5.2, mean(g5), 5.2, mean(g5) - std.error(g5), length = 0.1, angle = 45, col = "red")
     }
     
   }
