@@ -45,7 +45,7 @@ shinyUI(fluidPage(theme = "bootstrap.css",
                                     label = "Gene of interest files (GOI)", multiple =TRUE)),
                             column(6,downloadButton(
                             "Examplefile",
-                            "Download example file"
+                            "Download example template file"
                           ))),
                           selectInput("refgenenum.answer", "Select number of reference genes", choices = seq(1,10,1), selected=3),
                           helpText("Load all .csv files per reference gene. Including standard curve data (Upload allows for multiple selection)."),
@@ -75,7 +75,7 @@ shinyUI(fluidPage(theme = "bootstrap.css",
                           fluidRow(
                             column(6, fileInput("Cqvals", 
                                     label = "Comma-separted file containing GOI and reference gene Cq values per column")),
-                            column(6, downloadButton("Examplefilem", "Download example file"))),
+                            column(6, downloadButton("Examplefilem", "Download example template file"))),
                           strong(h4("Enter standard curve information for gene of interest")),
                           fluidRow(
                             column(6, numericInput("GOIslope", 
