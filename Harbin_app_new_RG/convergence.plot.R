@@ -10,7 +10,7 @@ convergence.plot<-function(datavec, plotmain){
   d<-density(datavec,na.rm=TRUE)
   
   histplot_f <- function(){
-    plot(d,main=plotmain,xlab="Normalised GOI value",xlim=c(0,max(d$x)))
+    plot(d,main=plotmain,xlab="Concentration ratio (CR)",xlim=c(0,max(d$x)))
     lines(d,lwd=2)
     polygon(d,col="darkgrey")
     for(i in 1:nbounds){
