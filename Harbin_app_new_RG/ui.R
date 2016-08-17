@@ -9,6 +9,9 @@ shinyUI(fluidPage(theme = "bootstrap.css",
       br(),
       strong(h4("Relative quantitation data analysis tool for real-time qPCR data.", align="center")),
       br(),
+      h6(em("'The Harbin application was named after the South African born British magician, ", a("Robert Harbin", href="https://en.wikipedia.org/wiki/Robert_Harbin"), " (born Edward Richard Charles Williams, 1908 - 1978). He was the inventor of several classic illusions, including the famous ", a("Zig Zag Girl. ", href="https://www.youtube.com/watch?v=oMN9h4ppIbI"), "In this illusion, as depicted in the logo, Harbin appears to partition a woman into thirds, which is an extension of sawing a woman in half illusion. Similarly, to this illusion the Harbin-test partitions qPCR concentration ratio data into five intervals to evaluate the compatibility of datasets, hence the name.'"), align="center"
+      ),
+      br(),
       p("For example data and instructions, visit the Harbin homepage at ",
         a("https://github.com/Rbester18/harbin.", 
           href = "https://github.com/Rbester18/harbin")),
@@ -28,9 +31,8 @@ shinyUI(fluidPage(theme = "bootstrap.css",
       a("Vitis laboratory.", href="http://www.sun.ac.za/english/faculty/agri/genetics/research/plant-genetics"), align="right"), 
       "For more information please contact Dr. H.J. Maree at hjmaree@sun.ac.za",
       br(),
-      br(),
-      h6(em("'Robert Harbin (1908 - 1978), born in South Africa, was a British magician and the inventor of a number of classic illusions, including the Zig Zag Girl. Since the the qPCR concentrations are divided into intervals, we decided to name our application ", span("Harbin", style = "color:#dd4814"), "'"))
-    ),
+      br()
+      ),
     
     mainPanel(
       tabsetPanel(tabPanel(h5("Data upload"),
