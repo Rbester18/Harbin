@@ -52,14 +52,14 @@ GOI.normalise.manual<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, R
     }
     refdatabase.valid.ind<-rep(0,times=nrow(refdatabase.data))
     refdatabase.valid.ind[refdatabase.data$Interval!=0]<-1
-    #boundvals<-convergence.check(c(refdatabase.data[refdatabase.valid.ind==1,"Concentration ratio (CR)"],GOI.validdata),graph=graph)
-    boundvals <-convergence.check(c(refdatabase.data[refdatabase.valid.ind==1,"Concentration ratio (CR)"],GOI.validdata))
+    #boundvals<-convergence.check(c(refdatabase.data[refdatabase.valid.ind==1,"Concentration.ratio"],GOI.validdata),graph=graph)
+    boundvals <-convergence.check(c(refdatabase.data[refdatabase.valid.ind==1,"Concentration.ratio"],GOI.validdata))
     refdatabase.index<-rep(0,times=nrow(refdatabase.data))
-    refdatabase.index[((refdatabase.data[,"Concentration ratio (CR)"]>=0) & (refdatabase.data[,"Concentration ratio (CR)"]<=boundvals[1]))]<-1
-    refdatabase.index[((refdatabase.data[,"Concentration ratio (CR)"]>boundvals[1]) & (refdatabase.data[,"Concentration ratio (CR)"]<=boundvals[2]))]<-2
-    refdatabase.index[((refdatabase.data[,"Concentration ratio (CR)"]>boundvals[2]) & (refdatabase.data[,"Concentration ratio (CR)"]<=boundvals[3]))]<-3
-    refdatabase.index[((refdatabase.data[,"Concentration ratio (CR)"]>boundvals[3]) & (refdatabase.data[,"Concentration ratio (CR)"]<=boundvals[4]))]<-4
-    refdatabase.index[refdatabase.data[,"Concentration ratio (CR)"]>boundvals[4]]<-5
+    refdatabase.index[((refdatabase.data[,"Concentration.ratio"]>=0) & (refdatabase.data[,"Concentration.ratio"]<=boundvals[1]))]<-1
+    refdatabase.index[((refdatabase.data[,"Concentration.ratio"]>boundvals[1]) & (refdatabase.data[,"Concentration.ratio"]<=boundvals[2]))]<-2
+    refdatabase.index[((refdatabase.data[,"Concentration.ratio"]>boundvals[2]) & (refdatabase.data[,"Concentration.ratio"]<=boundvals[3]))]<-3
+    refdatabase.index[((refdatabase.data[,"Concentration.ratio"]>boundvals[3]) & (refdatabase.data[,"Concentration.ratio"]<=boundvals[4]))]<-4
+    refdatabase.index[refdatabase.data[,"Concentration.ratio"]>boundvals[4]]<-5
     refdatabase.index[refdatabase.valid.ind!=1]<-0
     refdatabase.data[,"Interval"]<-refdatabase.index
     
@@ -75,7 +75,7 @@ GOI.normalise.manual<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, R
       
       # Kolmogorov-Smirnov test: Reference data base vs. new data
       line1 <- "Kolmogorov-Smirnov Test: New dataset vs. Reference dataset"
-      ks.out<-ks.test(x=refdatabase.data[,"Concentration ratio (CR)"],y=GOI.validdata,alternative='two.sided')
+      ks.out<-ks.test(x=refdatabase.data[,"Concentration.ratio"],y=GOI.validdata,alternative='two.sided')
       numchange <- paste("Proportion of labels changing in reference data base: ",round(count.labels*100,2),"%",sep="")
       line2 <- "H0: New data originated from same distribution as reference data"
       line3 <- "H1: New data and reference data come from different distributions"
@@ -95,7 +95,7 @@ GOI.normalise.manual<-function(GOIfiles, refgenefiles, GOImin, GOImax, Refmin, R
         proportion <- number_change/refdatabase_length
         count.labels <- as.numeric(proportion)
         line1 <- "Harbin Test: New dataset vs. Reference dataset"
-        harbin.out<-harbin.test(x=refdatabase.data[,"Concentration ratio (CR)"],y=GOI.validdata,reps=1000)
+        harbin.out<-harbin.test(x=refdatabase.data[,"Concentration.ratio"],y=GOI.validdata,reps=1000)
         numchange <- paste("Proportion of labels changing in reference data base: ",round(count.labels*100,2),"%",sep="")
         line2 <- "H0: New data originated from same distribution as reference data"
         line3 <- "H1: New data and reference data come from different distributions"
