@@ -811,7 +811,7 @@ shinyServer (function(input, output) {
         }
         nolog <- data[,4]
         datalog <- cbind.data.frame(data[,1], nolog, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio", "Note")
         return(datalog)
         
       } else if (loganswer==2){
@@ -829,7 +829,7 @@ shinyServer (function(input, output) {
         }
         logten <- log10(data[,4])
         datalog <- cbind.data.frame(data[,1], logten, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI (log base 10)", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio (log base 10)", "Note")
         return(datalog)
         
       } else {
@@ -847,7 +847,7 @@ shinyServer (function(input, output) {
         }
         lognat <- log(data[,4])
         datalog <- cbind.data.frame(data[,1], lognat, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI (Natural log)", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio (Natural log)", "Note")
         return(datalog)
         
       }
@@ -868,7 +868,7 @@ shinyServer (function(input, output) {
         }
         nolog <- data[,4]
         datalog <- cbind.data.frame(data[,1], nolog, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio", "Note")
         return(datalog)
         
       } else if (loganswer==2){
@@ -886,7 +886,7 @@ shinyServer (function(input, output) {
         }
         logten <- log10(data[,4])
         datalog <- cbind.data.frame(data[,1], logten, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI (log base 10)", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio (log base 10)", "Note")
         return(datalog)
         
       } else {
@@ -904,7 +904,7 @@ shinyServer (function(input, output) {
         }
         lognat <- log(data[,4])
         datalog <- cbind.data.frame(data[,1], lognat, data[,7])
-        colnames(datalog) <- c("Name","Normalised GOI (Natural log)", "Note")
+        colnames(datalog) <- c("Name","Concentration ratio (Natural log)", "Note")
         return(datalog)
         
       }
