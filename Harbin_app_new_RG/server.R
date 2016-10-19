@@ -1168,6 +1168,151 @@ shinyServer (function(input, output) {
   })
   
   
+  ####Calculate log2fold change between groups
+  
+  
+  logfold <- reactive({
+    
+    groupnum <- as.integer(input$num_groups)
+    if(groupnum == 2 ){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      
+      
+      p1 <- mean(g1)
+      p2 <- mean(g2)
+      
+      fold1 <- p2/p1
+      log2_fold1 <- data.frame(log2(fold1))
+      
+      output_rows <- rbind(log2_fold1[1,])
+      colnames(output_rows) <- "Log2(fold change)"
+      row.names(output_rows) <- "Group 2/Group 1"
+      
+      return(output_rows)
+      
+      
+    } else if (groupnum == 3){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      
+      p1 <- mean(g1)
+      p2 <- mean(g2)
+      p3 <- mean(g3)
+      
+      fold1 <- p2/p1
+      log2_fold1 <- data.frame(log2(fold1))
+      
+      fold2 <- p3/p1
+      log2_fold2 <- data.frame(log2(fold2))
+      
+      fold3 <- p3/p2
+      log2_fold3 <- data.frame(log2(fold3))
+      
+      output_rows <- rbind(log2_fold1[1,], log2_fold2[1,], log2_fold3[1,])
+      colnames(output_rows) <- "Log2(fold change)"
+      row.names(output_rows) <- c("Group 2/Group 1", "Group 3/Group 1", "Group 3/Group 2")
+      
+      return(output_rows)
+      
+    } else if (groupnum == 4){
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      g4 <- groups_selected()$g4
+      
+      
+      p1 <- mean(g1)
+      p2 <- mean(g2)
+      p3 <- mean(g3)
+      p4 <- mean(g4)
+      
+      fold1 <- p2/p1
+      log2_fold1 <- data.frame(log2(fold1))
+      
+      fold2 <- p3/p1
+      log2_fold2 <- data.frame(log2(fold2))
+      
+      fold3 <- p4/p1
+      log2_fold3 <- data.frame(log2(fold3))
+      
+      fold4 <- p3/p2
+      log2_fold4 <- data.frame(log2(fold4))
+      
+      fold5 <- p4/p2
+      log2_fold5 <- data.frame(log2(fold5))
+      
+      fold6 <- p4/p3
+      log2_fold6 <- data.frame(log2(fold6))
+      
+      output_rows <- rbind(log2_fold1[1,], log2_fold2[1,], log2_fold3[1,], log2_fold4[1,], log2_fold5[1,], log2_fold6[1,])
+      colnames(output_rows) <- "Log2(fold change)"
+      row.names(output_rows) <- c("Group 2/Group 1", "Group 3/Group 1", "Group 4/Group 1", "Group 3/Group 2", "Group 4/Group 2", "Group 4/Group 3")
+      
+      return(output_rows)
+      
+    } else if (groupnum == 5) {
+      g1 <- groups_selected()$g1
+      if(is.null(g1))
+        return(NULL)
+      g2 <- groups_selected()$g2
+      g3 <- groups_selected()$g3
+      g4 <- groups_selected()$g4
+      g5 <- groups_selected()$g5
+      
+      
+      p1 <- mean(g1)
+      p2 <- mean(g2)
+      p3 <- mean(g3)
+      p4 <- mean(g4)
+      p5 <- mean(g5)
+      
+      fold1 <- p2/p1
+      log2_fold1 <- data.frame(log2(fold1))
+      
+      fold2 <- p3/p1
+      log2_fold2 <- data.frame(log2(fold2))
+      
+      fold3 <- p4/p1
+      log2_fold3 <- data.frame(log2(fold3))
+      
+      fold4 <- p5/p1
+      log2_fold4 <- data.frame(log2(fold4))
+      
+      fold5 <- p3/p2
+      log2_fold5 <- data.frame(log2(fold5))
+      
+      fold6 <- p4/p2
+      log2_fold6 <- data.frame(log2(fold6))
+      
+      fold7 <- p5/p2
+      log2_fold7 <- data.frame(log2(fold7))
+      
+      fold8 <- p4/p3
+      log2_fold8 <- data.frame(log2(fold8))
+      
+      fold9 <- p5/p3
+      log2_fold9 <- data.frame(log2(fold9))
+      
+      fold10 <- p5/p4
+      log2_fold10 <- data.frame(log2(fold10))
+      
+      output_rows <- rbind(log2_fold1[1,], log2_fold2[1,], log2_fold3[1,], log2_fold4[1,], log2_fold5[1,], log2_fold6[1,], log2_fold7[1,], log2_fold8[1,], log2_fold9[1,], log2_fold10[1,])
+      colnames(output_rows) <- "Log2(fold change)"
+      row.names(output_rows) <- c("Group 2/Group 1", "Group 3/Group 1", "Group 4/Group 1", "Group 5/Group 1", "Group 3/Group 2", "Group 4/Group 2", "Group 5/Group 2", "Group 4/Group 3", "Group 5/Group 3", "Group 5/Group 4")
+      
+      return(output_rows)
+      
+    }}
+  )
+  
   ####Function to plot distribution per group
   
   makedistPlot <- function(){
@@ -1655,6 +1800,13 @@ shinyServer (function(input, output) {
   
   output$textarea.out <- renderPrint({
     bs()
+    
+  })
+  
+  ####Output for log2foldchange
+  
+  output$logchanges <- renderPrint({
+    logfold()
     
   })
   
