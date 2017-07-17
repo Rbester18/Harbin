@@ -1,7 +1,8 @@
 name: Harbin
+title:
 account: rbester
 server: shinyapps.io
-appId: 91335
-bundleId: 590731
+appId: 197367
+bundleId: 905804
 url: https://rbester.shinyapps.io/Harbin/
-when: 1476877479.67733
+when: 1500285928.71893
